@@ -22,6 +22,9 @@ under settings:  javascript suggest turn off
 
 create a repository in github then look for the commands
 
+in terminal:
+git add .
+git commit -m "initial deploy"
 git remote add origin https://github.com/lesterw53679/serverless-fuction-netlify.git
 git branch -M main
 git push -u origin main

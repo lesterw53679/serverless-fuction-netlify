@@ -20,7 +20,6 @@ exports.handler = async (event, context, callback) => {
   //console.log(event)
   return {
     statusCode: 200,
-    //body: JSON.stringify(person),
-    body: "Our First Netlify Function Example 2",
+    body: "Our First Netlify Function Example Yeah!",
   }
 }
