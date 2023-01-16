@@ -65,3 +65,25 @@ its like a template we use it.
 // go to build and deploy and scroll down to the variables section
 
 
+for stripe developer code:
+https://stripe.com/docs
+
+then go to payments
+then go to online and node:
+https://stripe.com/docs/checkout/quickstart?lang=node
+
+From this page you can really get everything you need, like the css for the form etc.
+
+https://stripe.com/docs/payments/quickstart?shell=true
+
+And to do the test payment:
+https://stripe.com/docs/payments/quickstart#test-payment
+
+4242 4242 4242 4242
+33 33 333 33333
+
+OK finally on the last section:
+ need to get this starter:
+
+ https://github.com/john-smilga/serverless-func-react-starter
+ 

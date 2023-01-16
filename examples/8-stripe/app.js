@@ -1,19 +1,26 @@
+//for this example hardcode the items being purchased
+// but we can't send this information to Stripe so we need a
+// middleman, which is our serverless function
 const purchase = [
-  { id: '1', name: 't-shirt', price: 1999 },
-  { id: '2', name: 'shoes', price: 4999 },
+  { id: "1", name: "t-shirt", price: 1999 },
+  { id: "2", name: "shoes", price: 4999 },
 ]
 const total_amount = 6998
 const shipping_fee = 1099
-var stripe = Stripe('YOUR_PUBLIC_KEY')
+var stripe = Stripe(
+  "pk_test_51MGhsPFDHjcvmxh72ithDdRgJbwLIvTGxYFTNjvNYuUJbE5rjpn42ksDqCU5bcckQpieH11z1klv0kmcXsAfgeed00nu2CP78c"
+)
 
 // The items the customer wants to buy
 
 // Disable the button until we have Stripe set up on the page
-document.querySelector('button').disabled = true
-fetch('/api/8-stripe', {
-  method: 'POST',
+// notice we are using fetch instead of axios, but same just have
+// to supply the required info from headers and body
+document.querySelector("button").disabled = true
+fetch("/api/8-stripe", {
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({ purchase, total_amount, shipping_fee }),
 })
@@ -25,35 +32,35 @@ fetch('/api/8-stripe', {
 
     var style = {
       base: {
-        color: '#32325d',
-        fontFamily: 'Arial, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#32325d',
+        color: "#32325d",
+        fontFamily: "Arial, sans-serif",
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d",
         },
       },
       invalid: {
-        fontFamily: 'Arial, sans-serif',
-        color: '#fa755a',
-        iconColor: '#fa755a',
+        fontFamily: "Arial, sans-serif",
+        color: "#fa755a",
+        iconColor: "#fa755a",
       },
     }
 
-    var card = elements.create('card', { style: style })
+    var card = elements.create("card", { style: style })
     // Stripe injects an iframe into the DOM
-    card.mount('#card-element')
+    card.mount("#card-element")
 
-    card.on('change', function (event) {
+    card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
-      document.querySelector('button').disabled = event.empty
-      document.querySelector('#card-error').textContent = event.error
+      document.querySelector("button").disabled = event.empty
+      document.querySelector("#card-error").textContent = event.error
         ? event.error.message
-        : ''
+        : ""
     })
 
-    var form = document.getElementById('payment-form')
-    form.addEventListener('submit', function (event) {
+    var form = document.getElementById("payment-form")
+    form.addEventListener("submit", function (event) {
       event.preventDefault()
       // Complete payment when the submit button is clicked
       payWithCard(stripe, card, data.clientSecret)
@@ -88,22 +95,22 @@ var payWithCard = function (stripe, card, clientSecret) {
 var orderComplete = function (paymentIntentId) {
   loading(false)
   document
-    .querySelector('.result-message a')
+    .querySelector(".result-message a")
     .setAttribute(
-      'href',
-      'https://dashboard.stripe.com/test/payments/' + paymentIntentId
+      "href",
+      "https://dashboard.stripe.com/test/payments/" + paymentIntentId
     )
-  document.querySelector('.result-message').classList.remove('hidden')
-  document.querySelector('button').disabled = true
+  document.querySelector(".result-message").classList.remove("hidden")
+  document.querySelector("button").disabled = true
 }
 
 // Show the customer the error from Stripe if their card fails to charge
 var showError = function (errorMsgText) {
   loading(false)
-  var errorMsg = document.querySelector('#card-error')
+  var errorMsg = document.querySelector("#card-error")
   errorMsg.textContent = errorMsgText
   setTimeout(function () {
-    errorMsg.textContent = ''
+    errorMsg.textContent = ""
   }, 4000)
 }
 
@@ -111,12 +118,12 @@ var showError = function (errorMsgText) {
 var loading = function (isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner
-    document.querySelector('button').disabled = true
-    document.querySelector('#spinner').classList.remove('hidden')
-    document.querySelector('#button-text').classList.add('hidden')
+    document.querySelector("button").disabled = true
+    document.querySelector("#spinner").classList.remove("hidden")
+    document.querySelector("#button-text").classList.add("hidden")
   } else {
-    document.querySelector('button').disabled = false
-    document.querySelector('#spinner').classList.add('hidden')
-    document.querySelector('#button-text').classList.remove('hidden')
+    document.querySelector("button").disabled = false
+    document.querySelector("#spinner").classList.add("hidden")
+    document.querySelector("#button-text").classList.remove("hidden")
   }
 }
